@@ -1,0 +1,108 @@
+/*6. Simple Calculator
+implement a Java program to represent a simple calculator. The calculator should have the following features:
+Addition of two numbers
+Subtraction of two numbers
+Multiplication of two numbers
+Division of two numbers
+
+Additionally, the program should initialize a constant value for the value of PI (3.14) and print a welcome message when an instance of the calculator is created. (static block)
+Print “New calculator instance” using the instance block.
+
+Your task is to implement a Java program that demonstrates the use of constructors, static block, and instance block to achieve these features.
+
+import java.util.Scanner;
+
+public class Calculator {
+    // Constant value for PI
+    private static final double PI;
+
+    static {
+        PI = 3.14;
+        System.out.println("Welcome to the Simple Calculator!");
+    }
+
+    {
+        System.out.println("New calculator instance");
+    }
+
+    // Constructor
+    public Calculator() {
+        // Empty constructor
+    }
+
+    // Method for addition
+    public double add(double a, double b) {
+        return a + b;
+    }
+
+    // Method for subtraction
+    public double subtract(double a, double b) {
+        return a - b;
+    }
+
+    // Method for multiplication
+    public double multiply(double a, double b) {
+        return a * b;
+    }
+
+    // Method for division
+    public double divide(double a, double b) {
+        if (b == 0) {
+            System.out.println("Error: Division by zero is not allowed.");
+            return Double.NaN; // Return Not-a-Number if division by zero
+        }
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Calculator calculator = new Calculator();
+
+        while (true) {
+            System.out.println("\nSimple Calculator");
+            System.out.println("1. Addition");
+            System.out.println("2. Subtraction");
+            System.out.println("3. Multiplication");
+            System.out.println("4. Division");
+            System.out.println("5. Exit");
+            System.out.print("Choose an operation: ");
+            int choice = scanner.nextInt();
+
+            if (choice == 5) {
+                System.out.println("Exiting the calculator. Goodbye!");
+                break;
+            }
+
+            System.out.print("Enter the first number: ");
+            double num1 = scanner.nextDouble();
+            System.out.print("Enter the second number: ");
+            double num2 = scanner.nextDouble();
+
+            double result = 0;
+            switch (choice) {
+                case 1:
+                    result = calculator.add(num1, num2);
+                    System.out.println("Result: " + result);
+                    break;
+                case 2:
+                    result = calculator.subtract(num1, num2);
+                    System.out.println("Result: " + result);
+                    break;
+                case 3:
+                    result = calculator.multiply(num1, num2);
+                    System.out.println("Result: " + result);
+                    break;
+                case 4:
+                    result = calculator.divide(num1, num2);
+                    if (!Double.isNaN(result)) {
+                        System.out.println("Result: " + result);
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
