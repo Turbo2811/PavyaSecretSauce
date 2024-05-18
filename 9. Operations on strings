@@ -1,0 +1,113 @@
+/* 9. Operations on strings
+
+Implement a Java program to perform basic operations on strings. The program should support the following operations:
+
+Concatenate two strings.
+Find the length of a string.
+Convert a string to uppercase.
+Convert a string to lowercase.
+Check if a string contains a speciﬁc substring.
+Replace a substring with another substring in a string.
+
+*/
+
+import java.util.Scanner;
+
+public class StringOperations {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose an operation:");
+        System.out.println("A. Concatenate two strings");
+        System.out.println("B. Find the length of a string");
+        System.out.println("C. Convert a string to uppercase");
+        System.out.println("D. Convert a string to lowercase");
+        System.out.println("E. Check if a string contains a specific substring");
+        System.out.println("F. Replace a substring with another substring in a string");
+        char choice = scanner.next().charAt(0);
+        scanner.nextLine();  // Consume newline
+
+        switch (choice) {
+            case 'A':
+                System.out.print("Enter the first string: ");
+                String str1 = scanner.nextLine();
+                System.out.print("Enter the second string: ");
+                String str2 = scanner.nextLine();
+                String concatenatedString = concatenateStrings(str1, str2);
+                System.out.println("Concatenated string: " + concatenatedString);
+                break;
+            case 'B':
+                System.out.print("Enter a string: ");
+                String inputString = scanner.nextLine();
+                int length = findStringLength(inputString);
+                System.out.println("Length of the string: " + length);
+                break;
+            case 'C':
+                System.out.print("Enter a string: ");
+                String upperString = scanner.nextLine();
+                String uppercasedString = convertToUppercase(upperString);
+                System.out.println("Uppercase string: " + uppercasedString);
+                break;
+            case 'D':
+                System.out.print("Enter a string: ");
+                String lowerString = scanner.nextLine();
+                String lowercasedString = convertToLowercase(lowerString);
+                System.out.println("Lowercase string: " + lowercasedString);
+                break;
+            case 'E':
+                System.out.print("Enter a string: ");
+                String mainString = scanner.nextLine();
+                System.out.print("Enter the substring to check: ");
+                String substring = scanner.nextLine();
+                boolean containsSubstring = checkSubstring(mainString, substring);
+                System.out.println("Does the string contain the substring? " + containsSubstring);
+                break;
+            case 'F':
+                System.out.print("Enter the main string: ");
+                String main = scanner.nextLine();
+                System.out.print("Enter the substring to replace: ");
+                String toReplace = scanner.nextLine();
+                System.out.print("Enter the replacement substring: ");
+                String replacement = scanner.nextLine();
+                String replacedString = replaceSubstring(main, toReplace, replacement);
+                System.out.println("String after replacement: " + replacedString);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+
+        scanner.close();
+    }
+
+    // Method to concatenate two strings
+    public static String concatenateStrings(String str1, String str2) {
+        return str1 + str2;
+    }
+
+    // Method to find the length of a string
+    public static int findStringLength(String str) {
+        return str.length();
+    }
+
+    // Method to convert a string to uppercase
+    public static String convertToUppercase(String str) {
+        return str.toUpperCase();
+    }
+
+    // Method to convert a string to lowercase
+    public static String convertToLowercase(String str) {
+        return str.toLowerCase();
+    }
+
+    // Method to check if a string contains a specific substring
+    public static boolean checkSubstring(String mainString, String substring) {
+        return mainString.contains(substring);
+    }
+
+    // Method to replace a substring with another substring in a string
+    public static String replaceSubstring(String main, String toReplace, String replacement) {
+        return main.replace(toReplace, replacement);
+    }
+}
