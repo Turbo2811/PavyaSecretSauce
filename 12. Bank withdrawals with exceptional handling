@@ -1,0 +1,48 @@
+/*12. Bank withdrawals with exceptional handling
+
+Develop a Java program demonstrating custom exception handling for bank account withdrawals. Deﬁne a WithdrawalException class to handle insuﬃcient funds scenarios. Implement a BankAccount class with a withdraw method, throwing WithdrawalException when necessary. Create a user interface to input account details and withdrawal amount, catching and displaying custom exception messages.
+*/
+
+import java.util.Scanner;
+class WithdrawalException extends Exception {
+//  Custom exception class for insufficient funds
+    public WithdrawalException(String message) {
+        super(message);
+    }
+}
+
+class BankAccount {
+    private double balance;
+
+    public BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    public void withdraw(double amount) throws WithdrawalException {
+        if (amount > balance) {
+            throw new WithdrawalException("Insufficient Funds");
+        }
+        balance -= amount;
+        System.out.println("Withdrawal successful. Current balance: $" + balance);
+    }
+}
+
+public class BankAccountDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter initial balance: ");
+        double balance = scanner.nextDouble();
+
+        BankAccount account = new BankAccount(balance);
+
+        System.out.print("Enter amount to withdraw: ");
+        double amount = scanner.nextDouble();
+
+        try {
+            account.withdraw(amount);
+        } catch (WithdrawalException e) {
+            System.out.println("Withdrawal failed: " + e.getMessage());
+        }
+    }
+}
