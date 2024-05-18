@@ -1,0 +1,135 @@
+/* 7.Shape Hierarchy
+
+Implement a Java program to represent a shape hierarchy. The program should have interfaces for different types of shapes, such as Drawable for shapes that can be drawn and Resizable for shapes that can be resized.
+
+Interface Drawable has draw() method
+
+Interface Resizable has resize(double factor) method
+
+Implement classes for speciﬁc shapes such as circle, rectangle and demonstrate multiple inheritance by implementing both Drawable and Resizable interfaces in appropriate classes.
+
+Circle implements both interfaces and implements both methods
+
+Rectangle implements only Drawable interface and implements draw() method
+*/
+
+import java.util.Scanner;
+
+// Interface for drawable shapes
+interface Drawable {
+    void draw();
+}
+
+// Interface for resizable shapes
+interface Resizable {
+    void resize(double factor);
+}
+
+// Circle class implementing both Drawable and Resizable interfaces
+class Circle implements Drawable, Resizable {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public void draw() {
+        System.out.println("Drawing a circle with radius: " + radius);
+    }
+
+    @Override
+    public void resize(double factor) {
+        radius *= factor;
+        System.out.println("Resized the circle to radius: " + radius);
+    }
+
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+// Rectangle class implementing only Drawable interface
+class Rectangle implements Drawable {
+    private double length;
+    private double width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    @Override
+    public void draw() {
+        System.out.println("Drawing a rectangle with length: " + length + " and width: " + width);
+    }
+
+    public double calculateArea() {
+        return length * width;
+    }
+}
+
+// Main class to demonstrate the functionality
+public class ShapeHierarchy {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose a shape to create:");
+        System.out.println("1. Circle");
+        System.out.println("2. Rectangle");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter the radius of the circle: ");
+                double radius = scanner.nextDouble();
+                Circle circle = new Circle(radius);
+                circle.draw();
+                System.out.printf("Area of the circle: %.2f%n", circle.calculateArea());
+                System.out.print("Enter the resize factor for the circle: ");
+                double factor = scanner.nextDouble();
+                circle.resize(factor);
+                circle.draw();
+                System.out.printf("Area of the resized circle: %.2f%n", circle.calculateArea());
+                break;
+            case 2:
+                System.out.print("Enter the length of the rectangle: ");
+                double length = scanner.nextDouble();
+                System.out.print("Enter the width of the rectangle: ");
+                double width = scanner.nextDouble();
+                Rectangle rectangle = new Rectangle(length, width);
+                rectangle.draw();
+                System.out.printf("Area of the rectangle: %.2f%n", rectangle.calculateArea());
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+
+        scanner.close();
+    }
+}
