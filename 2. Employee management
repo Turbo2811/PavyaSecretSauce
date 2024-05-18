@@ -1,0 +1,140 @@
+/* 2. Employee management
+2. Write a Java program to manage employees in a company. The company has different types of employees, including full-time employees and part-time employees. Each employee has a name, employee ID, and hourly rate.
+
+Full-time employees have additional attributes such as salary and benefits, (Use super keyword)
+while part-time employees have attributes for the number of hours worked and
+overtime rate.
+
+(Use super keyword)
+
+Your task is to implement a Java program using inheritance to represent these different types of employees and their attributes. Additionally, the program should provide functionality to calculate the monthly salary for each type of employee.
+*/
+class Employee {
+    private String name;
+    private String employeeID;
+    private double hourlyRate;
+
+    public Employee(String name, String employeeID, double hourlyRate) {
+        this.name = name;
+        this.employeeID = employeeID;
+        this.hourlyRate = hourlyRate;
+    }
+
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
+    }
+
+    public void setHourlyRate(double hourlyRate) {
+        this.hourlyRate = hourlyRate;
+    }
+
+    public double calculateMonthlySalary() {
+        // Default implementation, to be overridden in subclasses
+        return 0.0;
+    }
+}
+
+// Full-time employee class
+class FullTimeEmployee extends Employee {
+    private double salary;
+    private double benefits;
+
+    public FullTimeEmployee(String name, String employeeID, double hourlyRate, double salary, double benefits) {
+        super(name, employeeID, hourlyRate);
+        this.salary = salary;
+        this.benefits = benefits;
+    }
+
+    // Getters and setters
+    public double getSalary() {
+        return salary;
+    }
+
+    public double getBenefits() {
+        return benefits;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void setBenefits(double benefits) {
+        this.benefits = benefits;
+    }
+
+    @Override
+    public double calculateMonthlySalary() {
+        // Assume full-time employees are paid a fixed salary plus benefits
+        return salary + benefits;
+    }
+}
+
+// Part-time employee class
+class PartTimeEmployee extends Employee {
+    private int hoursWorked;
+    private double overtimeRate;
+
+    public PartTimeEmployee(String name, String employeeID, double hourlyRate, int hoursWorked, double overtimeRate) {
+        super(name, employeeID, hourlyRate);
+        this.hoursWorked = hoursWorked;
+        this.overtimeRate = overtimeRate;
+    }
+
+    // Getters and setters
+    public int getHoursWorked() {
+        return hoursWorked;
+    }
+
+    public double getOvertimeRate() {
+        return overtimeRate;
+    }
+
+    public void setHoursWorked(int hoursWorked) {
+        this.hoursWorked = hoursWorked;
+    }
+
+    public void setOvertimeRate(double overtimeRate) {
+        this.overtimeRate = overtimeRate;
+    }
+
+    @Override
+    public double calculateMonthlySalary() {
+        // Assume part-time employees are paid based on hours worked, with overtime for any hours over 160 in a month
+        int regularHours = Math.min(hoursWorked, 160);
+        int overtimeHours = Math.max(0, hoursWorked - 160);
+        return (regularHours * getHourlyRate()) + (overtimeHours * overtimeRate);
+    }
+}
+
+// Main class to demonstrate the functionality
+public class Main {
+    public static void main(String[] args) {
+        FullTimeEmployee fullTimeEmp = new FullTimeEmployee("Alice", "FT123", 50.0, 3000.0, 500.0);
+        PartTimeEmployee partTimeEmp = new PartTimeEmployee("Bob", "PT456", 20.0, 180, 30.0);
+
+        System.out.println("Full-Time Employee:");
+        System.out.println("Name: " + fullTimeEmp.getName());
+        System.out.println("Monthly Salary: " + fullTimeEmp.calculateMonthlySalary());
+
+        System.out.println("\nPart-Time Employee:");
+        System.out.println("Name: " + partTimeEmp.getName());
+        System.out.println("Monthly Salary: " + partTimeEmp.calculateMonthlySalary());
+    }
+}
