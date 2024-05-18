@@ -1,0 +1,2740 @@
+1)
+package practice1;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+class Student {
+    String name;
+    int rollNumber;
+    String grade;
+
+    Student(String name, int rollNumber, String grade) {
+        this.name = name;
+        this.rollNumber = rollNumber;
+        this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{name='" + name + "', rollNumber=" + rollNumber + ", grade='" + grade + "'}";
+    }
+}
+
+class StudentManager {
+    List<Student> students = new ArrayList<>();
+
+    void addStudent(Student student) {
+        students.add(student);
+    }
+
+    void removeStudent(int rollNumber) 
+    {
+        Iterator<Student> iterator = students.iterator();
+        while (iterator.hasNext()) 
+        {
+            Student student = iterator.next();
+            if (student.rollNumber == rollNumber) 
+            {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
+    void displayStudents() {
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+
+    void replaceGrade(int rollNumber, String newGrade) {
+        for (Student student : students) {
+            if (student.rollNumber == rollNumber) {
+                student.grade = newGrade;
+                break;
+            }
+        }
+    }
+}
+
+public class StudentManagementProgram {
+    public static void main(String[] args) {
+        StudentManager manager = new StudentManager();
+
+        // Adding students
+        manager.addStudent(new Student("John Doe", 1, "A"));
+        manager.addStudent(new Student("Jane Smith", 2, "B"));
+
+        // Displaying all students
+        System.out.println("All students:");
+        manager.displayStudents();
+
+        // Replacing grade for a student
+        manager.replaceGrade(1, "A+");
+        System.out.println("\nAfter updating grade:");
+        manager.displayStudents();
+
+        // Removing a student
+        manager.removeStudent(2);
+        System.out.println("\nAfter removing a student:");
+        manager.displayStudents();
+    }
+}
+
+
+2)
+package practice2;
+
+class Employee {
+    private String name;
+    private int employeeID;
+    private double hourlyRate;
+
+    public Employee(String name, int employeeID, double hourlyRate) {
+        this.name = name;
+        this.employeeID = employeeID;
+        this.hourlyRate = hourlyRate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getEmployeeID() {
+        return employeeID;
+    }
+
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public double calculateMonthlySalary() {
+        return 0; // Default implementation
+    }
+}
+
+class FullTimeEmployee extends Employee {
+    private double salary;
+    private double benefits;
+
+    public FullTimeEmployee(String name, int employeeID, double hourlyRate, double salary, double benefits) {
+        super(name, employeeID, hourlyRate);
+        this.salary = salary;
+        this.benefits = benefits;
+    }
+
+    @Override
+    public double calculateMonthlySalary() {
+        return salary + benefits;
+    }
+}
+
+class PartTimeEmployee extends Employee {
+    private int hoursWorked;
+    private double overtimeRate;
+
+    public PartTimeEmployee(String name, int employeeID, double hourlyRate, int hoursWorked, double overtimeRate) {
+        super(name, employeeID, hourlyRate);
+        this.hoursWorked = hoursWorked;
+        this.overtimeRate = overtimeRate;
+    }
+
+    @Override
+    public double calculateMonthlySalary() {
+        return getHourlyRate() * hoursWorked + overtimeRate;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        FullTimeEmployee ftEmployee = new FullTimeEmployee("John Doe", 101, 50, 3000, 500);
+        PartTimeEmployee ptEmployee = new PartTimeEmployee("Jane Smith", 102, 20, 80, 100);
+
+        System.out.println("Full-time Employee Monthly Salary: " + ftEmployee.calculateMonthlySalary());
+        System.out.println("Part-time Employee Monthly Salary: " + ptEmployee.calculateMonthlySalary());
+    }
+}
+
+3)
+package practice3;
+
+import java.util.Scanner;
+
+abstract class Shape {
+    abstract double calculateArea();
+    abstract double calculatePerimeter();
+    abstract void displayDetails();
+}
+
+class Circle extends Shape {
+    private double radius;
+
+    Circle(double radius) {
+        this.radius = radius;
+    }
+
+    double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+
+    double calculatePerimeter() {
+        return 2 * Math.PI * radius;
+    }
+
+    void displayDetails() {
+        System.out.println("Circle - Radius: " + radius);
+    }
+}
+
+class Rectangle extends Shape {
+    private double length;
+    private double width;
+
+    Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    double calculateArea() {
+        return length * width;
+    }
+
+    double calculatePerimeter() {
+        return 2 * (length + width);
+    }
+
+    void displayDetails() {
+        System.out.println("Rectangle - Length: " + length + ", Width: " + width);
+    }
+}
+
+class Triangle extends Shape {
+    private double side1;
+    private double side2;
+    private double side3;
+
+    Triangle(double side1, double side2, double side3) {
+        this.side1 = side1;
+        this.side2 = side2;
+        this.side3 = side3;
+    }
+
+    double calculateArea() {
+        double s = (side1 + side2 + side3) / 2;
+        return Math.sqrt(s * (s - side1) * (s - side2) * (s - side3));
+    }
+
+    double calculatePerimeter() {
+        return side1 + side2 + side3;
+    }
+
+    void displayDetails() {
+        System.out.println("Triangle - Side1: " + side1 + ", Side2: " + side2 + ", Side3: " + side3);
+    }
+}
+
+public class ShapeManager {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Enter the radius of the circle:");
+        double radius = scanner.nextDouble();
+        Shape circle = new Circle(radius);
+        
+        System.out.println("Enter the length and width of the rectangle:");
+        double length = scanner.nextDouble();
+        double width = scanner.nextDouble();
+        Shape rectangle = new Rectangle(length, width);
+        
+        System.out.println("Enter the lengths of the sides of the triangle:");
+        double side1 = scanner.nextDouble();
+        double side2 = scanner.nextDouble();
+        double side3 = scanner.nextDouble();
+        Shape triangle = new Triangle(side1, side2, side3);
+
+        displayShapeDetails(circle);
+        displayShapeDetails(rectangle);
+        displayShapeDetails(triangle);
+        
+        scanner.close();
+    }
+
+    private static void displayShapeDetails(Shape shape) {
+        shape.displayDetails();
+        System.out.println("Area: " + shape.calculateArea());
+        System.out.println("Perimeter: " + shape.calculatePerimeter());
+        System.out.println();
+    }
+}
+
+4) 
+package practice4;
+
+class InvalidTemperatureException extends Exception {
+    public InvalidTemperatureException(String message) {
+        super(message);
+    }
+}
+
+public class TemperatureConverter {
+    public static void main(String[] args) {
+        try {
+            double celsius = 20.0; // Example input temperature in Celsius
+
+            // Convert Celsius to Fahrenheit
+            double fahrenheit = celsiusToFahrenheit(celsius);
+            System.out.println(celsius + "°C is equal to " + fahrenheit + "°F");
+
+            double invalidTemperature = -300.0; // Example invalid temperature
+            convertAndPrint(invalidTemperature); // Example of using the method with invalid temperature
+        } catch (InvalidTemperatureException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static double celsiusToFahrenheit(double celsius) throws InvalidTemperatureException {
+        if (celsius < -273.15 || celsius > 1000) {
+            throw new InvalidTemperatureException("Temperature must be within the range -273.15°C to 1000°C");
+        }
+        return (celsius * 9 / 5) + 32;
+    }
+
+    public static void convertAndPrint(double temperature) throws InvalidTemperatureException {
+        double convertedTemperature = celsiusToFahrenheit(temperature);
+        System.out.println(temperature + "°C is equal to " + convertedTemperature + "°F");
+    }
+}
+
+
+
+5)
+package practice5;
+
+public class AreaCalculator {
+
+    // Method to calculate the area of a rectangle
+    public double calculateArea(double length, double width) {
+        return length * width;
+    }
+
+    // Method to calculate the area of a square
+    public double calculateArea(double side) {
+        return side * side;
+    }
+
+    // Method to calculate the area of a circle
+    public double calculateArea(double radius) {
+        return Math.PI * radius * radius;
+    }
+
+    public static void main(String[] args) {
+        AreaCalculator calculator = new AreaCalculator();
+
+        // Calculate area of a rectangle
+        double rectangleArea = calculator.calculateArea(5, 10);
+        System.out.println("Area of Rectangle: " + rectangleArea);
+
+        // Calculate area of a square
+        double squareArea = calculator.calculateArea(4);
+        System.out.println("Area of Square: " + squareArea);
+
+        // Calculate area of a circle
+        double circleArea = calculator.calculateArea(3);
+        System.out.println("Area of Circle: " + circleArea);
+    }
+}
+
+
+6)
+package practice6;
+
+public class Calculator {
+    // Constants
+    static final double PI = 3.14;
+
+    // Static block
+    static {
+        System.out.println("Welcome to the Calculator!");
+    }
+
+    // Instance block
+    {
+        System.out.println("New calculator instance");
+    }
+
+    // Constructors (none needed for this example)
+
+    // Addition method
+    public static double add(double a, double b) {
+        return a + b;
+    }
+
+    // Subtraction method
+    public static double subtract(double a, double b) {
+        return a - b;
+    }
+
+    // Multiplication method
+    public static double multiply(double a, double b) {
+        return a * b;
+    }
+
+    // Division method
+    public static double divide(double a, double b) {
+        if (b != 0) {
+            return a / b;
+        } else {
+            System.out.println("Error: Division by zero");
+            return Double.NaN;
+        }
+    }
+
+    public static void main(String[] args) {
+    	
+    	Calculator calculator = new Calculator();
+
+    	
+        // Example usage
+        System.out.println("Addition: " + add(5, 3));
+        System.out.println("Subtraction: " + subtract(5, 3));
+        System.out.println("Multiplication: " + multiply(5, 3));
+        System.out.println("Division: " + divide(6, 3));
+    }
+}
+
+
+7)
+package practice7;
+
+interface Drawable {
+    void draw();
+}
+
+interface Resizable {
+    void resize(double factor);
+}
+
+class Circle implements Drawable, Resizable {
+    @Override
+    public void draw() {
+        System.out.println("Drawing Circle");
+    }
+
+    @Override
+    public void resize(double factor) {
+        System.out.println("Resizing Circle by factor: " + factor);
+    }
+}
+
+class Rectangle implements Drawable {
+    @Override
+    public void draw() {
+        System.out.println("Drawing Rectangle");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle circle = new Circle();
+        circle.draw();
+        circle.resize(1.5); // Resizing circle by a factor of 1.5
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.draw();
+    }
+}
+
+
+8)
+package practice8;
+
+import java.util.Arrays;
+
+public class BasicArrayOperations {
+    public static void main(String[] args) {
+        // Initialize an array with given elements
+        int[] array = {5, 3, 8, 2, 1, 9};
+
+        // Find the sum of all elements in the array
+        int sum = 0;
+        for (int num : array) {
+            sum += num;
+        }
+        System.out.println("Sum of all elements: " + sum);
+
+        // Find the maximum element in the array
+        int max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+        System.out.println("Maximum element: " + max);
+
+        // Find the minimum element in the array
+        int min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        System.out.println("Minimum element: " + min);
+
+        // Sort the elements of the array in ascending order
+        Arrays.sort(array);
+        System.out.println("Sorted array: " + Arrays.toString(array));
+
+        // Reverse the elements of the array
+        int[] reversedArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            reversedArray[i] = array[array.length - 1 - i];
+        }
+        System.out.println("Reversed array: " + Arrays.toString(reversedArray));
+    }
+}
+
+
+
+
+
+
+9)
+package practice9;
+
+import java.util.Scanner;
+
+public class StringOperations {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Concatenate two strings
+        System.out.println("Enter the first string:");
+        String str1 = scanner.nextLine();
+        System.out.println("Enter the second string:");
+        String str2 = scanner.nextLine();
+        String concatenatedString = str1.concat(str2);
+        System.out.println("Concatenated string: " + concatenatedString);
+
+        // Find the length of a string
+        System.out.println("Length of the concatenated string: " + concatenatedString.length());
+
+        // Convert a string to uppercase
+        System.out.println("Uppercase of the concatenated string: " + concatenatedString.toUpperCase());
+
+        // Convert a string to lowercase
+        System.out.println("Lowercase of the concatenated string: " + concatenatedString.toLowerCase());
+
+        // Check if a string contains a specific substring
+        System.out.println("Enter the substring to check:");
+        String substring = scanner.nextLine();
+        if (concatenatedString.contains(substring)) {
+            System.out.println("The concatenated string contains the substring.");
+        } else {
+            System.out.println("The concatenated string does not contain the substring.");
+        }
+
+        // Replace a substring with another substring in a string
+        System.out.println("Enter the substring to replace:");
+        String oldSubstring = scanner.nextLine();
+        System.out.println("Enter the new substring:");
+        String newSubstring = scanner.nextLine();
+        String replacedString = concatenatedString.replace(oldSubstring, newSubstring);
+        System.out.println("String after replacement: " + replacedString);
+
+        scanner.close();
+    }
+}
+
+
+10)
+package practice10;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    private int id;
+    private String name;
+    private int age;
+    private String gender;
+    private String grade;
+    private String contact;
+
+    public Student(int id, String name, int age, String gender, String grade, String contact) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.grade = grade;
+        this.contact = contact;
+    }
+
+    // Getters and setters
+}
+
+public class StudentManagementSystem {
+    private static ArrayList<Student> students = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        // Admin login
+        System.out.println("Login as admin (username and password not required for simplicity)");
+
+        // Menu
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("A. Add a new student");
+            System.out.println("B. Remove a student by ID");
+            System.out.println("C. Update student information");
+            System.out.println("D. Display all students");
+            System.out.println("E. Search for a student");
+            System.out.println("F. Exit");
+            System.out.print("Enter your choice: ");
+            String choice = scanner.nextLine().toUpperCase();
+
+            switch (choice) {
+                case "A":
+                    addStudent();
+                    break;
+                case "B":
+                    removeStudent();
+                    break;
+                case "C":
+                    updateStudent();
+                    break;
+                case "D":
+                    displayAllStudents();
+                    break;
+                case "E":
+                    searchStudent();
+                    break;
+                case "F":
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void addStudent() {
+        System.out.println("Enter student details:");
+        System.out.print("ID: ");
+        int id = Integer.parseInt(scanner.nextLine()); // Assume valid integer input
+        if (isIdExists(id)) {
+            System.out.println("Student with ID " + id + " already exists.");
+            return;
+        }
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Age: ");
+        int age = Integer.parseInt(scanner.nextLine());
+        System.out.print("Gender: ");
+        String gender = scanner.nextLine();
+        System.out.print("Grade: ");
+        String grade = scanner.nextLine();
+        System.out.print("Contact: ");
+        String contact = scanner.nextLine();
+
+        students.add(new Student(id, name, age, gender, grade, contact));
+        System.out.println("Student added successfully.");
+    }
+
+    private static void removeStudent() {
+        System.out.print("Enter student ID to remove: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        boolean removed = false;
+        for (Student student : students) {
+            if (student.getId() == id) {
+                students.remove(student);
+                removed = true;
+                System.out.println("Student removed successfully.");
+                break;
+            }
+        }
+        if (!removed) {
+            System.out.println("Student with ID " + id + " not found.");
+        }
+    }
+
+    private static void updateStudent() {
+        System.out.print("Enter student ID to update: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        boolean found = false;
+        for (Student student : students) {
+            if (student.getId() == id) {
+                System.out.println("Enter updated student details:");
+                System.out.print("Name: ");
+                student.setName(scanner.nextLine());
+                System.out.print("Age: ");
+                student.setAge(Integer.parseInt(scanner.nextLine()));
+                System.out.print("Gender: ");
+                student.setGender(scanner.nextLine());
+                System.out.print("Grade: ");
+                student.setGrade(scanner.nextLine());
+                System.out.print("Contact: ");
+                student.setContact(scanner.nextLine());
+                found = true;
+                System.out.println("Student information updated successfully.");
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Student with ID " + id + " not found.");
+        }
+    }
+
+    private static void displayAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No students in the database.");
+            return;
+        }
+        System.out.println("Students in the database:");
+        for (Student student : students) {
+            System.out.println(student.toString());
+        }
+    }
+
+    private static void searchStudent() {
+        System.out.println("Enter search criteria (ID, Name, Grade, etc.): ");
+        String criteria = scanner.nextLine();
+        boolean found = false;
+        for (Student student : students) {
+            if (String.valueOf(student.getId()).equals(criteria)
+                    || student.getName().equalsIgnoreCase(criteria)
+                    || student.getGrade().equalsIgnoreCase(criteria)) {
+                System.out.println("Student found:");
+                System.out.println(student.toString());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("No student found with the given criteria.");
+        }
+    }
+
+    private static boolean isIdExists(int id) {
+        for (Student student : students) {
+            if (student.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+
+11)
+package practice11;
+
+import java.util.*;
+
+interface BankingAccount {
+    void deposit(double amount);
+    void withdraw(double amount);
+    double getBalance();
+}
+
+class SavingsAccount implements BankingAccount {
+    private double balance;
+
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+
+class CheckingAccount implements BankingAccount {
+    private double balance;
+
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+
+public class BankSystem {
+    private static Map<Integer, BankingAccount> accounts = new HashMap<>();
+    private static int accountNumber = 0;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Check Balance");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter account type (1 for Savings, 2 for Checking): ");
+                    int type = scanner.nextInt();
+                    BankingAccount account = type == 1 ? new SavingsAccount() : new CheckingAccount();
+                    accounts.put(++accountNumber, account);
+                    System.out.println("Account created. Your account number is: " + accountNumber);
+                    break;
+                case 2:
+                    System.out.print("Enter account number: ");
+                    int accountNum = scanner.nextInt();
+                    System.out.print("Enter deposit amount: ");
+                    double amount = scanner.nextDouble();
+                    accounts.get(accountNum).deposit(amount);
+                    break;
+                case 3:
+                    System.out.print("Enter account number: ");
+                    accountNum = scanner.nextInt();
+                    System.out.print("Enter withdrawal amount: ");
+                    amount = scanner.nextDouble();
+                    accounts.get(accountNum).withdraw(amount);
+                    break;
+                case 4:
+                    System.out.print("Enter account number: ");
+                    accountNum = scanner.nextInt();
+                    System.out.println("Your balance is: " + accounts.get(accountNum).getBalance());
+                    break;
+                case 5:
+                    scanner.close();
+                    System.exit(0);
+            }
+        }
+    }
+}
+
+
+12)
+package practice12;
+
+
+import java.util.Scanner;
+
+//Custom exception for handling insufficient funds
+class WithdrawalException extends Exception {
+ public WithdrawalException(String message) {
+     super(message);
+ }
+}
+
+//Class representing a bank account
+class BankAccount {
+ private String accountNumber;
+ private double balance;
+
+ public BankAccount(String accountNumber, double balance) {
+     this.accountNumber = accountNumber;
+     this.balance = balance;
+ }
+
+ public String getAccountNumber() {
+     return accountNumber;
+ }
+
+ public double getBalance() {
+     return balance;
+ }
+
+ public void withdraw(double amount) throws WithdrawalException {
+     if (amount > balance) {
+         throw new WithdrawalException("Insufficient funds for withdrawal");
+     }
+     balance -= amount;
+ }
+}
+
+//Main class with user interface
+public class BankApp {
+ public static void main(String[] args) {
+     Scanner scanner = new Scanner(System.in);
+
+     // Input account details
+     System.out.print("Enter account number: ");
+     String accountNumber = scanner.nextLine();
+     System.out.print("Enter initial balance: ");
+     double initialBalance = scanner.nextDouble();
+
+     BankAccount account = new BankAccount(accountNumber, initialBalance);
+
+     // Input withdrawal amount
+     System.out.print("Enter amount to withdraw: ");
+     double amountToWithdraw = scanner.nextDouble();
+
+     try {
+         account.withdraw(amountToWithdraw);
+         System.out.println("Withdrawal successful. New balance: " + account.getBalance());
+     } catch (WithdrawalException e) {
+         System.out.println("Error: " + e.getMessage());
+     } finally {
+         scanner.close();
+     }
+ }
+}
+
+
+
+13)
+package practice13;
+
+import java.util.Scanner;
+
+class CounterThread extends Thread {
+    private int start;
+    private int end;
+    private int threadNumber;
+
+    public CounterThread(int start, int end, int threadNumber) {
+        this.start = start;
+        this.end = end;
+        this.threadNumber = threadNumber;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Thread " + threadNumber + ": Counting numbers from " + start + " to " + end + "...");
+        for (int i = start; i <= end; i++) {
+            // Simulate counting, no need to print each number
+        }
+    }
+}
+
+public class MultithreadingCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the total count of numbers: ");
+        int totalCount = scanner.nextInt();
+
+        System.out.print("Enter the number of threads: ");
+        int numberOfThreads = scanner.nextInt();
+
+        int rangePerThread = totalCount / numberOfThreads;
+        int remainder = totalCount % numberOfThreads;
+
+        System.out.println("\nStarting concurrent counting task...");
+
+        CounterThread[] threads = new CounterThread[numberOfThreads];
+        int start = 1;
+        for (int i = 0; i < numberOfThreads; i++) {
+            int end = start + rangePerThread - 1;
+            if (i == numberOfThreads - 1) {
+                end += remainder; // Add the remainder to the last thread's range
+            }
+            threads[i] = new CounterThread(start, end, i + 1);
+            start = end + 1;
+        }
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            threads[i].start();
+            try {
+                threads[i].join(); // Ensure main thread waits for each thread to complete before starting the next
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("All threads have completed execution.");
+        System.out.println("Final Result: Total count of numbers: " + totalCount);
+
+        scanner.close();
+    }
+}
+
+
+
+
+14)
+package practice14;
+
+class Time {
+    private int hour;
+    private int min;
+    private int sec;
+
+    // Constructor to initialize time
+    public Time(int hour, int min, int sec) {
+        this.hour = hour;
+        this.min = min;
+        this.sec = sec;
+    }
+
+    // Method to add two Time objects
+    public void add(Time other) {
+        int totalSec = this.sec + other.sec;
+        int totalMin = this.min + other.min + totalSec / 60;
+        int totalHour = this.hour + other.hour + totalMin / 60;
+
+        totalSec = totalSec % 60;
+        totalMin = totalMin % 60;
+        totalHour = totalHour % 24;  // Assuming a 24-hour clock
+
+        System.out.printf("Added Time: %02d:%02d:%02d\n", totalHour, totalMin, totalSec);
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Time time1 = new Time(10, 45, 30);
+        Time time2 = new Time(2, 20, 45);
+        
+        time1.add(time2);
+    }
+}
+
+
+
+
+
+15)
+package practice15;
+
+public class ExceptionExample {
+    public static void main(String[] args) {
+        // Array with negative index
+        try {
+            int[] arr = {1, 2, 3};
+            int value = arr[-1]; // Trying to access index -1
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Caught NegativeArrayIndexException: " + e.getMessage());
+        }
+
+        // Arithmetic operation resulting in exception
+        try {
+            int result = 10 / 0; // Division by zero
+        } catch (ArithmeticException e) {
+            System.out.println("Caught ArithmeticException: " + e.getMessage());
+        }
+    }
+}
+
+
+
+16)
+package practice16;
+
+class Vehicle {
+    protected String regnNumber;
+    protected int speed;
+    protected String color;
+    protected String ownerName;
+
+    public Vehicle(String regnNumber, int speed, String color, String ownerName) {
+        this.regnNumber = regnNumber;
+        this.speed = speed;
+        this.color = color;
+        this.ownerName = ownerName;
+    }
+
+    public void showData() {
+        System.out.println("This is a vehicle class");
+    }
+}
+
+class Bus extends Vehicle {
+    private String routeNumber;
+
+    public Bus(String regnNumber, int speed, String color, String ownerName, String routeNumber) {
+        super(regnNumber, speed, color, ownerName);
+        this.routeNumber = routeNumber;
+    }
+
+    @Override
+    public void showData() {
+        super.showData();
+        System.out.println("Regn Number: " + regnNumber);
+        System.out.println("Speed: " + speed);
+        System.out.println("Color: " + color);
+        System.out.println("Owner Name: " + ownerName);
+        System.out.println("Route Number: " + routeNumber);
+    }
+}
+
+class Car extends Vehicle {
+    private String manufacturerName;
+
+    public Car(String regnNumber, int speed, String color, String ownerName, String manufacturerName) {
+        super(regnNumber, speed, color, ownerName);
+        this.manufacturerName = manufacturerName;
+    }
+
+    @Override
+    public void showData() {
+        super.showData();
+        System.out.println("Regn Number: " + regnNumber);
+        System.out.println("Speed: " + speed);
+        System.out.println("Color: " + color);
+        System.out.println("Owner Name: " + ownerName);
+        System.out.println("Manufacturer Name: " + manufacturerName);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Bus bus = new Bus("1234", 60, "Yellow", "John", "Route 1");
+        Car car = new Car("5678", 100, "Blue", "Alice", "Toyota");
+
+        System.out.println("Bus Details:");
+        bus.showData();
+
+        System.out.println("\nCar Details:");
+        car.showData();
+    }
+}
+
+
+17)
+package practice17;
+
+abstract class Shape {
+    // Abstract methods to be overridden by subclasses
+    abstract double calculateArea();
+    abstract double calculatePerimeter();
+}
+
+class Rectangle extends Shape {
+    double length;
+    double width;
+    
+    Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+    
+    @Override
+    double calculateArea() {
+        return length * width;
+    }
+    
+    @Override
+    double calculatePerimeter() {
+        return 2 * (length + width);
+    }
+}
+
+class Triangle extends Shape {
+    double side1;
+    double side2;
+    double side3;
+    
+    Triangle(double side1, double side2, double side3) {
+        this.side1 = side1;
+        this.side2 = side2;
+        this.side3 = side3;
+    }
+    
+    @Override
+    double calculateArea() {
+        // Using Heron's formula to calculate the area
+        double s = (side1 + side2 + side3) / 2;
+        return Math.sqrt(s * (s - side1) * (s - side2) * (s - side3));
+    }
+    
+    @Override
+    double calculatePerimeter() {
+        return side1 + side2 + side3;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle rectangle = new Rectangle(5, 4);
+        System.out.println("Rectangle Area: " + rectangle.calculateArea());
+        System.out.println("Rectangle Perimeter: " + rectangle.calculatePerimeter());
+        
+        Triangle triangle = new Triangle(3, 4, 5);
+        System.out.println("Triangle Area: " + triangle.calculateArea());
+        System.out.println("Triangle Perimeter: " + triangle.calculatePerimeter());
+    }
+}
+
+
+18)
+package practice18;
+
+import java.util.Scanner;
+
+abstract class Bank {
+    protected double balance;
+
+    public Bank(double initialBalance) {
+        balance = initialBalance;
+    }
+
+    abstract void deposit(double amount);
+
+    abstract void withdraw(double amount);
+
+    void displayBalance() {
+        System.out.println("Balance: " + balance);
+    }
+}
+
+class SavingsAccount extends Bank {
+    public SavingsAccount(double initialBalance) {
+        super(initialBalance);
+    }
+
+    @Override
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println(amount + " deposited successfully.");
+    }
+
+    @Override
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println(amount + " withdrawn successfully.");
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+    }
+}
+
+class CurrentAccount extends Bank {
+    public CurrentAccount(double initialBalance) {
+        super(initialBalance);
+    }
+
+    @Override
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println(amount + " deposited successfully.");
+    }
+
+    @Override
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println(amount + " withdrawn successfully.");
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+    }
+}
+
+public class BankApplication {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter initial balance:");
+        double initialBalance = scanner.nextDouble();
+
+        Bank account;
+
+        System.out.println("Choose account type (1 - Savings, 2 - Current):");
+        int choice = scanner.nextInt();
+
+        if (choice == 1) {
+            account = new SavingsAccount(initialBalance);
+        } else {
+            account = new CurrentAccount(initialBalance);
+        }
+
+        while (true) {
+            System.out.println("Choose operation (1 - Deposit, 2 - Withdraw, 3 - Display Balance, 4 - Exit):");
+            int operation = scanner.nextInt();
+
+            switch (operation) {
+                case 1:
+                    System.out.println("Enter amount to deposit:");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.println("Enter amount to withdraw:");
+                    double withdrawAmount = scanner.nextDouble();
+                    account.withdraw(withdrawAmount);
+                    break;
+                case 3:
+                    account.displayBalance();
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid operation. Please try again.");
+            }
+        }
+    }
+}
+
+
+19)
+package practice19;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Book {
+    String title;
+    String author;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + ", Author: " + author;
+    }
+}
+
+class Library {
+    List<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+        System.out.println("Book added: " + book);
+    }
+
+    public void removeBook(Book book) {
+        if (books.remove(book)) {
+            System.out.println("Book removed: " + book);
+        } else {
+            System.out.println("Book not found: " + book);
+        }
+    }
+
+    public void displayBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books in the library.");
+        } else {
+            System.out.println("Books in the library:");
+            for (Book book : books) {
+                System.out.println(book);
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Library library = new Library();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Add a book");
+            System.out.println("2. Remove a book");
+            System.out.println("3. Display books");
+            System.out.println("4. Exit");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter book title:");
+                    String title = scanner.nextLine();
+                    System.out.println("Enter book author:");
+                    String author = scanner.nextLine();
+                    library.addBook(new Book(title, author));
+                    break;
+                case 2:
+                    System.out.println("Enter book title:");
+                    title = scanner.nextLine();
+                    System.out.println("Enter book author:");
+                    author = scanner.nextLine();
+                    library.removeBook(new Book(title, author));
+                    break;
+                case 3:
+                    library.displayBooks();
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please choose again.");
+            }
+        }
+    }
+}
+
+
+20)
+package practice20;
+
+import java.util.*;
+
+public class WordCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a text:");
+        String text = scanner.nextLine();
+        scanner.close();
+        
+        Map<String, Integer> wordCountMap = countWords(text);
+        
+        System.out.println("Word Count:");
+        int totalCount = 0;
+        for (Map.Entry<String, Integer> entry : wordCountMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+            totalCount += entry.getValue();
+        }
+        System.out.println("Total Count: " + totalCount);
+    }
+    
+    public static Map<String, Integer> countWords(String text) {
+        Map<String, Integer> wordCountMap = new HashMap<>();
+        String[] words = text.split("\\s+");
+        
+        for (String word : words) {
+            word = word.toLowerCase();
+            wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+        }
+        
+        return wordCountMap;
+    }
+}
+
+21)
+package practice21;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class IntegerListManipulater {
+    public static void main(String[] args) {
+        ArrayList<Integer> integerList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            System.out.println("\nChoose an option:");
+            System.out.println("1. Add an integer to the end of the list");
+            System.out.println("2. Insert an integer at a specified index in the list");
+            System.out.println("3. Remove an integer from the list based on its value");
+            System.out.println("4. Remove an integer at a specified index in the list");
+            System.out.println("5. Search for the index of a given integer in the list");
+            System.out.println("6. Display all integers in the list");
+            System.out.println("7. Exit");
+
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the integer to add:");
+                    int numToAdd = scanner.nextInt();
+                    integerList.add(numToAdd);
+                    break;
+                case 2:
+                    System.out.println("Enter the index to insert at:");
+                    int indexToInsert = scanner.nextInt();
+                    System.out.println("Enter the integer to insert:");
+                    int numToInsert = scanner.nextInt();
+                    integerList.add(indexToInsert, numToInsert);
+                    break;
+                case 3:
+                    System.out.println("Enter the integer to remove:");
+                    int numToRemove = scanner.nextInt();
+                    integerList.remove(Integer.valueOf(numToRemove));
+                    break;
+                case 4:
+                    System.out.println("Enter the index to remove:");
+                    int indexToRemove = scanner.nextInt();
+                    integerList.remove(indexToRemove);
+                    break;
+                case 5:
+                    System.out.println("Enter the integer to search for:");
+                    int numToSearch = scanner.nextInt();
+                    int index = integerList.indexOf(numToSearch);
+                    if (index != -1) {
+                        System.out.println("Integer found at index: " + index);
+                    } else {
+                        System.out.println("Integer not found in the list.");
+                    }
+                    break;
+                case 6:
+                    System.out.println("Integers in the list:");
+                    for (int num : integerList) {
+                        System.out.print(num + " ");
+                    }
+                    System.out.println();
+                    break;
+                case 7:
+                    System.out.println("Exiting program.");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+
+
+22)
+package practice22;
+
+//Vehicle class
+class Vehicle {
+ String make;
+ String model;
+ int year;
+
+ // Constructor
+ public Vehicle(String make, String model, int year) {
+     this.make = make;
+     this.model = model;
+     this.year = year;
+ }
+
+ // Method to display vehicle information
+ public void displayInfo() {
+     System.out.println("Make: " + make);
+     System.out.println("Model: " + model);
+     System.out.println("Year: " + year);
+ }
+}
+
+//Car class inheriting from Vehicle
+class Car extends Vehicle {
+ int numberOfDoors;
+
+ // Constructor
+ public Car(String make, String model, int year, int numberOfDoors) {
+     super(make, model, year);
+     this.numberOfDoors = numberOfDoors;
+ }
+
+ // Method to display car information
+ public void displayCarInfo() {
+     displayInfo(); // accessing method from parent class
+     System.out.println("Number of doors: " + numberOfDoors);
+ }
+}
+
+//Main class
+public class Main {
+ public static void main(String[] args) {
+     // Creating a Car object
+     Car myCar = new Car("Toyota", "Camry", 2020, 4);
+     
+     // Displaying car information
+     myCar.displayCarInfo();
+ }
+}
+
+
+23)
+package practice23;
+
+public class ShoppingCartSystem {
+
+    // Purchasable Interface
+    public interface Purchasable {
+        void addItem(int quantity);
+        void removeItem(int quantity);
+        double calculateTotalPrice();
+    }
+
+    // Electronics Class
+    public static class Electronics implements Purchasable {
+        private int quantity;
+        private double price;
+
+        public Electronics(double price) {
+            this.price = price;
+            this.quantity = 0;
+        }
+
+        @Override
+        public void addItem(int quantity) {
+            this.quantity += quantity;
+        }
+
+        @Override
+        public void removeItem(int quantity) {
+            this.quantity -= quantity;
+            if (this.quantity < 0) this.quantity = 0;
+        }
+
+        @Override
+        public double calculateTotalPrice() {
+            return this.quantity * this.price;
+        }
+    }
+
+    // Clothing Class
+    public static class Clothing implements Purchasable {
+        private int quantity;
+        private double price;
+
+        public Clothing(double price) {
+            this.price = price;
+            this.quantity = 0;
+        }
+
+        @Override
+        public void addItem(int quantity) {
+            this.quantity += quantity;
+        }
+
+        @Override
+        public void removeItem(int quantity) {
+            this.quantity -= quantity;
+            if (this.quantity < 0) this.quantity = 0;
+        }
+
+        @Override
+        public double calculateTotalPrice() {
+            return this.quantity * this.price;
+        }
+    }
+
+    // Books Class
+    public static class Books implements Purchasable {
+        private int quantity;
+        private double price;
+
+        public Books(double price) {
+            this.price = price;
+            this.quantity = 0;
+        }
+
+        @Override
+        public void addItem(int quantity) {
+            this.quantity += quantity;
+        }
+
+        @Override
+        public void removeItem(int quantity) {
+            this.quantity -= quantity;
+            if (this.quantity < 0) this.quantity = 0;
+        }
+
+        @Override
+        public double calculateTotalPrice() {
+            return this.quantity * this.price;
+        }
+    }
+
+    // ShoppingCartManager Class
+    public static class ShoppingCartManager {
+        private java.util.List<Purchasable> cart;
+
+        public ShoppingCartManager() {
+            cart = new java.util.ArrayList<>();
+        }
+
+        public void addItem(Purchasable item, int quantity) {
+            item.addItem(quantity);
+            if (!cart.contains(item)) {
+                cart.add(item);
+            }
+        }
+
+        public void removeItem(Purchasable item, int quantity) {
+            item.removeItem(quantity);
+            if (item.calculateTotalPrice() == 0) {
+                cart.remove(item);
+            }
+        }
+
+        public double calculateTotalPrice() {
+            double total = 0;
+            for (Purchasable item : cart) {
+                total += item.calculateTotalPrice();
+            }
+            return total;
+        }
+
+        public void purchaseItems() {
+            double total = calculateTotalPrice();
+            System.out.println("Total price: $" + total);
+            cart.clear();
+            System.out.println("Purchase completed.");
+        }
+
+        public static void main(String[] args) {
+            ShoppingCartManager manager = new ShoppingCartManager();
+
+            Electronics laptop = new Electronics(1000);
+            Clothing shirt = new Clothing(50);
+            Books book = new Books(20);
+
+            manager.addItem(laptop, 2); // Add 2 laptops
+            manager.addItem(shirt, 5);  // Add 5 shirts
+            manager.addItem(book, 3);   // Add 3 books
+
+            System.out.println("Total price: $" + manager.calculateTotalPrice());
+
+            manager.removeItem(shirt, 2); // Remove 2 shirts
+            System.out.println("Total price after removing 2 shirts: $" + manager.calculateTotalPrice());
+
+            manager.purchaseItems(); // Purchase all items
+        }
+    }
+}
+
+
+24)
+package practice24;
+
+import java.util.Scanner;
+
+//Define the Rentable interface
+interface Rentable {
+ void rent();
+ void returnVehicle();
+ double calculateRentalCost(int days);
+}
+
+//Implement Rentable for Car
+class Car implements Rentable {
+ private boolean isRented;
+
+ @Override
+ public void rent() {
+     if (!isRented) {
+         isRented = true;
+         System.out.println("Car rented.");
+     } else {
+         System.out.println("Car is already rented.");
+     }
+ }
+
+ @Override
+ public void returnVehicle() {
+     if (isRented) {
+         isRented = false;
+         System.out.println("Car returned.");
+     } else {
+         System.out.println("Car is not rented.");
+     }
+ }
+
+ @Override
+ public double calculateRentalCost(int days) {
+     return days * 50.0; // Example cost calculation
+ }
+}
+
+//Implement Rentable for Motorcycle
+class Motorcycle implements Rentable {
+ private boolean isRented;
+
+ @Override
+ public void rent() {
+     if (!isRented) {
+         isRented = true;
+         System.out.println("Motorcycle rented.");
+     } else {
+         System.out.println("Motorcycle is already rented.");
+     }
+ }
+
+ @Override
+ public void returnVehicle() {
+     if (isRented) {
+         isRented = false;
+         System.out.println("Motorcycle returned.");
+     } else {
+         System.out.println("Motorcycle is not rented.");
+     }
+ }
+
+ @Override
+ public double calculateRentalCost(int days) {
+     return days * 30.0; // Example cost calculation
+ }
+}
+
+//Implement Rentable for Bicycle
+class Bicycle implements Rentable {
+ private boolean isRented;
+
+ @Override
+ public void rent() {
+     if (!isRented) {
+         isRented = true;
+         System.out.println("Bicycle rented.");
+     } else {
+         System.out.println("Bicycle is already rented.");
+     }
+ }
+
+ @Override
+ public void returnVehicle() {
+     if (isRented) {
+         isRented = false;
+         System.out.println("Bicycle returned.");
+     } else {
+         System.out.println("Bicycle is not rented.");
+     }
+ }
+
+ @Override
+ public double calculateRentalCost(int days) {
+     return days * 10.0; // Example cost calculation
+ }
+}
+
+//RentalManager class to handle renting and returning vehicles
+class RentalManager {
+ public void rentVehicle(Rentable vehicle) {
+     vehicle.rent();
+ }
+
+ public void returnVehicle(Rentable vehicle) {
+     vehicle.returnVehicle();
+ }
+
+ public void showRentalCost(Rentable vehicle, int days) {
+     double cost = vehicle.calculateRentalCost(days);
+     System.out.println("Rental cost for " + days + " days: " + cost);
+ }
+}
+
+//Main class to demonstrate the rental system
+public class VehicleRentalSystem {
+ public static void main(String[] args) {
+     Scanner scanner = new Scanner(System.in);
+     RentalManager manager = new RentalManager();
+
+     System.out.println("Welcome to the Vehicle Rental System!");
+     System.out.println("Choose a vehicle to rent: 1. Car 2. Motorcycle 3. Bicycle");
+     int choice = scanner.nextInt();
+
+     Rentable vehicle = null;
+
+     switch (choice) {
+         case 1:
+             vehicle = new Car();
+             break;
+         case 2:
+             vehicle = new Motorcycle();
+             break;
+         case 3:
+             vehicle = new Bicycle();
+             break;
+         default:
+             System.out.println("Invalid choice!");
+             System.exit(0);
+     }
+
+     manager.rentVehicle(vehicle);
+
+     System.out.println("Enter the number of days to rent:");
+     int days = scanner.nextInt();
+
+     manager.showRentalCost(vehicle, days);
+
+     System.out.println("Do you want to return the vehicle? (yes/no)");
+     String returnChoice = scanner.next();
+
+     if (returnChoice.equalsIgnoreCase("yes")) {
+         manager.returnVehicle(vehicle);
+     }
+
+     scanner.close();
+     System.out.println("Thank you for using the Vehicle Rental System!");
+ }
+}
+
+
+
+
+
+
+25)
+package practice25;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Book {
+    private String title;
+    private String author;
+    private String ISBN;
+    private boolean isAvailable;
+
+    public Book(String title, String author, String ISBN) {
+        this.title = title;
+        this.author = author;
+        this.ISBN = ISBN;
+        this.isAvailable = true;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + ", Author: " + author + ", ISBN: " + ISBN + ", Available: " + isAvailable;
+    }
+}
+
+class Library {
+    private List<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public Book searchByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                return book;
+            }
+        }
+        return null;
+    }
+
+    public List<Book> searchByAuthor(String author) {
+        List<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getAuthor().equalsIgnoreCase(author)) {
+                result.add(book);
+            }
+        }
+        return result;
+    }
+
+    public boolean borrowBook(String ISBN) {
+        for (Book book : books) {
+            if (book.getISBN().equals(ISBN) && book.isAvailable()) {
+                book.setAvailable(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean returnBook(String ISBN) {
+        for (Book book : books) {
+            if (book.getISBN().equals(ISBN) && !book.isAvailable()) {
+                book.setAvailable(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void displayAvailableBooks() {
+        for (Book book : books) {
+            if (book.isAvailable()) {
+                System.out.println(book);
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Library library = new Library();
+
+        // Adding books to the library
+        library.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald", "123456789"));
+        library.addBook(new Book("To Kill a Mockingbird", "Harper Lee", "987654321"));
+        library.addBook(new Book("1984", "George Orwell", "456789123"));
+
+        // Displaying available books
+        System.out.println("Available books in the library:");
+        library.displayAvailableBooks();
+
+        // Borrowing a book
+        System.out.println("\nBorrowing '1984':");
+        if (library.borrowBook("456789123")) {
+            System.out.println("Borrowed successfully!");
+        } else {
+            System.out.println("Book not available!");
+        }
+
+        // Displaying available books after borrowing one
+        System.out.println("\nAvailable books after borrowing '1984':");
+        library.displayAvailableBooks();
+
+        // Returning a book
+        System.out.println("\nReturning '1984':");
+        if (library.returnBook("456789123")) {
+            System.out.println("Returned successfully!");
+        } else {
+            System.out.println("Error in returning the book!");
+        }
+
+        // Displaying available books after returning one
+        System.out.println("\nAvailable books after returning '1984':");
+        library.displayAvailableBooks();
+
+        // Searching for books by title
+        System.out.println("\nSearching for 'The Great Gatsby':");
+        Book book = library.searchByTitle("The Great Gatsby");
+        if (book != null) {
+            System.out.println("Found: " + book);
+        } else {
+            System.out.println("Book not found!");
+        }
+
+        // Searching for books by author
+        System.out.println("\nSearching for books by 'Harper Lee':");
+        List<Book> booksByAuthor = library.searchByAuthor("Harper Lee");
+        for (Book b : booksByAuthor) {
+            System.out.println("Found: " + b);
+        }
+    }
+}
+
+
+26)
+package practice26;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+class Student {
+    int id;
+    String name;
+
+    Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name;
+    }
+}
+
+public class StudentDatabase {
+    private HashMap<Integer, Student> students = new HashMap<>();
+
+    public void addStudent(int id, String name) {
+        students.put(id, new Student(id, name));
+        System.out.println("Student added successfully.");
+    }
+
+    public void removeStudent(int id) {
+        if (students.remove(id) != null) {
+            System.out.println("Student removed successfully.");
+        } else {
+            System.out.println("Student not found.");
+        }
+    }
+
+    public void searchStudentById(int id) {
+        Student student = students.get(id);
+        if (student != null) {
+            System.out.println(student);
+        } else {
+            System.out.println("Student not found.");
+        }
+    }
+
+    public void searchStudentByName(String name) {
+        for (Student student : students.values()) {
+            if (student.name.equalsIgnoreCase(name)) {
+                System.out.println(student);
+                return;
+            }
+        }
+        System.out.println("Student not found.");
+    }
+
+    public void displayAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No students in the database.");
+        } else {
+            for (Student student : students.values()) {
+                System.out.println(student);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        StudentDatabase db = new StudentDatabase();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Add Student\n2. Remove Student\n3. Search Student by ID\n4. Search Student by Name\n5. Display All Students\n6. Exit");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    db.addStudent(id, name);
+                    break;
+                case 2:
+                    System.out.print("Enter ID to remove: ");
+                    int removeId = scanner.nextInt();
+                    db.removeStudent(removeId);
+                    break;
+                case 3:
+                    System.out.print("Enter ID to search: ");
+                    int searchId = scanner.nextInt();
+                    db.searchStudentById(searchId);
+                    break;
+                case 4:
+                    System.out.print("Enter Name to search: ");
+                    String searchName = scanner.nextLine();
+                    db.searchStudentByName(searchName);
+                    break;
+                case 5:
+                    db.displayAllStudents();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+27)
+package practice27;
+
+public class SequentialPrinting {
+
+    private static final int MAX_NUMBER = 10;
+    private int currentNumber = 1;
+
+    public static void main(String[] args) {
+        SequentialPrinting sp = new SequentialPrinting();
+
+        Thread t1 = new Thread(new NumberPrinter(sp, 1));
+        Thread t2 = new Thread(new NumberPrinter(sp, 2));
+        Thread t3 = new Thread(new NumberPrinter(sp, 3));
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+
+    public synchronized void printNumber(int threadId) {
+        while (currentNumber <= MAX_NUMBER) {
+            if (currentNumber % 3 == threadId % 3) {
+                System.out.println("Thread " + threadId + ": " + currentNumber);
+                currentNumber++;
+                notifyAll();
+            } else {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+}
+
+class NumberPrinter implements Runnable {
+    private final SequentialPrinting sp;
+    private final int threadId;
+
+    public NumberPrinter(SequentialPrinting sp, int threadId) {
+        this.sp = sp;
+        this.threadId = threadId;
+    }
+
+    @Override
+    public void run() {
+        sp.printNumber(threadId);
+    }
+}
+
+
+
+
+
+
+
+
+28)
+package practice28;
+
+import java.util.*;
+import java.text.SimpleDateFormat;
+
+class Flight {
+    private String flightNumber;
+    private String departure;
+    private String arrival;
+    private Date departureDate;
+    private int availableSeats;
+
+    public Flight(String flightNumber, String departure, String arrival, Date departureDate, int availableSeats) {
+        this.flightNumber = flightNumber;
+        this.departure = departure;
+        this.arrival = arrival;
+        this.departureDate = departureDate;
+        this.availableSeats = availableSeats;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getDeparture() {
+        return departure;
+    }
+
+    public String getArrival() {
+        return arrival;
+    }
+
+    public Date getDepartureDate() {
+        return departureDate;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void bookSeat() throws Exception {
+        if (availableSeats > 0) {
+            availableSeats--;
+        } else {
+            throw new Exception("No available seats.");
+        }
+    }
+
+    public void cancelSeat() {
+        availableSeats++;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "flightNumber='" + flightNumber + '\'' +
+                ", departure='" + departure + '\'' +
+                ", arrival='" + arrival + '\'' +
+                ", departureDate=" + departureDate +
+                ", availableSeats=" + availableSeats +
+                '}';
+    }
+}
+
+class FlightReservationSystem {
+    private List<Flight> flights = new ArrayList<>();
+
+    public void addFlight(Flight flight) {
+        flights.add(flight);
+    }
+
+    public List<Flight> searchFlights(String departure, String arrival, Date departureDate) {
+        List<Flight> results = new ArrayList<>();
+        for (Flight flight : flights) {
+            if (flight.getDeparture().equals(departure) && flight.getArrival().equals(arrival) && flight.getDepartureDate().equals(departureDate)) {
+                results.add(flight);
+            }
+        }
+        return results;
+    }
+
+    public void handleBooking(String flightNumber) {
+        for (Flight flight : flights) {
+            if (flight.getFlightNumber().equals(flightNumber)) {
+                try {
+                    flight.bookSeat();
+                    System.out.println("Booking confirmed for flight " + flightNumber);
+                    return;
+                } catch (Exception e) {
+                    System.err.println("Error during booking: " + e.getMessage());
+                    return;
+                }
+            }
+        }
+        System.err.println("Flight not found.");
+    }
+
+    public void handleCancellation(String flightNumber) {
+        for (Flight flight : flights) {
+            if (flight.getFlightNumber().equals(flightNumber)) {
+                flight.cancelSeat();
+                System.out.println("Reservation cancelled for flight " + flightNumber);
+                return;
+            }
+        }
+        System.err.println("Flight not found.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        FlightReservationSystem system = new FlightReservationSystem();
+
+        // Adding some flights
+        Calendar cal = Calendar.getInstance();
+        cal.set(2024, Calendar.MAY, 20);
+        system.addFlight(new Flight("AI101", "Pune", "Delhi", cal.getTime(), 10));
+        cal.set(2024, Calendar.MAY, 21);
+        system.addFlight(new Flight("AI102", "Pune", "Delhi", cal.getTime(), 5));
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Search Flights");
+            System.out.println("2. Book Ticket");
+            System.out.println("3. Cancel Reservation");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter departure location: ");
+                    String departure = scanner.nextLine();
+                    System.out.print("Enter arrival location: ");
+                    String arrival = scanner.nextLine();
+                    System.out.print("Enter departure date (yyyy-mm-dd): ");
+                    String dateStr = scanner.nextLine();
+                    try {
+                        Date departureDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+                        List<Flight> availableFlights = system.searchFlights(departure, arrival, departureDate);
+                        if (availableFlights.isEmpty()) {
+                            System.out.println("No flights found.");
+                        } else {
+                            for (Flight flight : availableFlights) {
+                                System.out.println(flight);
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Invalid date format.");
+                    }
+                    break;
+
+                case 2:
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter flight number to book: ");
+                    String flightNumberToBook = scanner.nextLine();
+                    system.handleBooking(flightNumberToBook);
+                    break;
+
+                case 3:
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter flight number to cancel reservation: ");
+                    String flightNumberToCancel = scanner.nextLine();
+                    system.handleCancellation(flightNumberToCancel);
+                    break;
+
+                case 4:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+}
+
+
+
+29)
+package practice29;
+
+import java.util.Scanner;
+
+public class Vehicle {
+    private String make;
+    private String model;
+    private int year;
+    private double mileage;
+
+    public Vehicle(String make, String model, int year, double mileage) {
+        if (year <= 0) {
+            throw new IllegalArgumentException("Year must be a positive value");
+        }
+        if (mileage < 0) {
+            throw new IllegalArgumentException("Mileage cannot be negative");
+        }
+
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.mileage = mileage;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter make: ");
+        String make = scanner.nextLine();
+
+        System.out.print("Enter model: ");
+        String model = scanner.nextLine();
+
+        System.out.print("Enter year: ");
+        int year = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Enter mileage: ");
+        double mileage = Double.parseDouble(scanner.nextLine());
+
+        // Test the constructor
+        try {
+            Vehicle car = new Vehicle(make, model, year, mileage);
+            System.out.println("Car: " + car.getMake() + " " + car.getModel() + " " + car.getYear() + " with " + car.getMileage() + " miles");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error creating vehicle: " + e.getMessage());
+        }
+
+        scanner.close();
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public double getMileage() {
+        return mileage;
+    }
+}
+
+
+
+// Alternative>>>>>>>>>>>>>>>>>>>>>
+
+
+//public class Vehicle {
+//    private String make;
+//    private String model;
+//    private int year;
+//    private double mileage;
+//
+//    public Vehicle(String make, String model, int year, double mileage) {
+//        if (year <= 0) {
+//            throw new IllegalArgumentException("Year must be a positive value");
+//        }
+//        if (mileage < 0) {
+//            throw new IllegalArgumentException("Mileage cannot be negative");
+//        }
+//
+//        this.make = make;
+//        this.model = model;
+//        this.year = year;
+//        this.mileage = mileage;
+//    }
+//
+//    public String getMake() {
+//        return make;
+//    }
+//
+//    public String getModel() {
+//        return model;
+//    }
+//
+//    public int getYear() {
+//        return year;
+//    }
+//
+//    public double getMileage() {
+//        return mileage;
+//    }
+//
+//    public static void main(String[] args) {
+//        // Test the constructor
+//        try {
+//            Vehicle car1 = new Vehicle("Toyota", "Camry", 2015, 50000);
+//            System.out.println("Car 1: " + car1.getMake() + " " + car1.getModel() + " " + car1.getYear() + " with " + car1.getMileage() + " miles");
+//
+//            Vehicle car2 = new Vehicle("Honda", "Accord", 2018, 30000);
+//            System.out.println("Car 2: " + car2.getMake() + " " + car2.getModel() + " " + car2.getYear() + " with " + car2.getMileage() + " miles");
+//
+//            // Test invalid input
+//            // Vehicle car3 = new Vehicle("Ford", "Fiesta", -1, 20000); // Uncomment to test invalid year
+//            // Vehicle car4 = new Vehicle("Chevrolet", "Cruze", 2019, -10000); // Uncomment to test invalid mileage
+//        } catch (IllegalArgumentException e) {
+//            System.out.println("Error creating vehicle: " + e.getMessage());
+//        }
+//    }
+//}
+
+30)
+package practice30;
+
+import java.util.Scanner;
+
+//Base class for courses
+class Course {
+ String title;
+ String instructor;
+ int duration;
+ double enrollmentFee;
+
+ public Course(String title, String instructor, int duration, double enrollmentFee) {
+     this.title = title;
+     this.instructor = instructor;
+     this.duration = duration;
+     this.enrollmentFee = enrollmentFee;
+ }
+
+ public void displayInfo() {
+     System.out.println("Title: " + title);
+     System.out.println("Instructor: " + instructor);
+     System.out.println("Duration: " + duration + " weeks");
+     System.out.println("Enrollment Fee: $" + enrollmentFee);
+ }
+}
+
+//Derived class for Programming courses
+class ProgrammingCourse extends Course {
+ String language;
+
+ public ProgrammingCourse(String title, String instructor, int duration, double enrollmentFee, String language) {
+     super(title, instructor, duration, enrollmentFee);
+     this.language = language;
+ }
+
+ public void displayLanguage() {
+     System.out.println("Language: " + language);
+ }
+}
+
+//Derived class for Mathematics courses
+class MathematicsCourse extends Course {
+ int level;
+
+ public MathematicsCourse(String title, String instructor, int duration, double enrollmentFee, int level) {
+     super(title, instructor, duration, enrollmentFee);
+     this.level = level;
+ }
+
+ public void displayLevel() {
+     System.out.println("Level: " + level);
+ }
+}
+
+//Derived class for Literature courses
+class LiteratureCourse extends Course {
+ String genre;
+
+ public LiteratureCourse(String title, String instructor, int duration, double enrollmentFee, String genre) {
+     super(title, instructor, duration, enrollmentFee);
+     this.genre = genre;
+ }
+
+ public void displayGenre() {
+     System.out.println("Genre: " + genre);
+ }
+}
+
+//Main class to test the system
+public class Main {
+ public static void main(String[] args) {
+     Scanner scanner = new Scanner(System.in);
+
+     // Get information for Programming course
+     System.out.println("Enter Programming Course Title:");
+     String title = scanner.nextLine();
+     System.out.println("Enter Instructor Name:");
+     String instructor = scanner.nextLine();
+     System.out.println("Enter Duration (weeks):");
+     int duration = scanner.nextInt();
+     System.out.println("Enter Enrollment Fee:");
+     double enrollmentFee = scanner.nextDouble();
+     scanner.nextLine(); // Consume newline
+     System.out.println("Enter Programming Language:");
+     String language = scanner.nextLine();
+
+     ProgrammingCourse javaCourse = new ProgrammingCourse(title, instructor, duration, enrollmentFee, language);
+
+     // Get information for Mathematics course
+     System.out.println("Enter Mathematics Course Title:");
+     title = scanner.nextLine();
+     System.out.println("Enter Instructor Name:");
+     instructor = scanner.nextLine();
+     System.out.println("Enter Duration (weeks):");
+     duration = scanner.nextInt();
+     System.out.println("Enter Enrollment Fee:");
+     enrollmentFee = scanner.nextDouble();
+     scanner.nextLine(); // Consume newline
+     System.out.println("Enter Mathematics Level:");
+     int level = scanner.nextInt();
+
+     MathematicsCourse calculusCourse = new MathematicsCourse(title, instructor, duration, enrollmentFee, level);
+
+     // Get information for Literature course
+     System.out.println("Enter Literature Course Title:");
+     title = scanner.nextLine();
+     System.out.println("Enter Instructor Name:");
+     instructor = scanner.nextLine();
+     System.out.println("Enter Duration (weeks):");
+     duration = scanner.nextInt();
+     System.out.println("Enter Enrollment Fee:");
+     enrollmentFee = scanner.nextDouble();
+     scanner.nextLine(); // Consume newline
+     System.out.println("Enter Literature Genre:");
+     String genre = scanner.nextLine();
+
+     LiteratureCourse novelCourse = new LiteratureCourse(title, instructor, duration, enrollmentFee, genre);
+
+     // Display course information
+     System.out.println("\nProgramming Course:");
+     javaCourse.displayInfo();
+     javaCourse.displayLanguage();
+
+     System.out.println("\nMathematics Course:");
+     calculusCourse.displayInfo();
+     calculusCourse.displayLevel();
+
+     System.out.println("\nLiterature Course:");
+     novelCourse.displayInfo();
+     novelCourse.displayGenre();
+
+     // Close scanner
+     scanner.close();
+ }
+}
+
+
+
+31)
+package practice31;
+
+//Abstract class Animal
+abstract class Animal {
+ // Abstract methods for behaviors
+ abstract void eat();
+ abstract void sleep();
+ abstract void move();
+}
+
+//Concrete subclass Mammal
+class Mammal extends Animal {
+ @Override
+ void eat() {
+     System.out.println("Mammal is eating");
+ }
+
+ @Override
+ void sleep() {
+     System.out.println("Mammal is sleeping");
+ }
+
+ @Override
+ void move() {
+     System.out.println("Mammal is moving");
+ }
+}
+
+//Concrete subclass Bird
+class Bird extends Animal {
+ @Override
+ void eat() {
+     System.out.println("Bird is eating");
+ }
+
+ @Override
+ void sleep() {
+     System.out.println("Bird is sleeping");
+ }
+
+ @Override
+ void move() {
+     System.out.println("Bird is flying");
+ }
+}
+
+//Concrete subclass Fish
+class Fish extends Animal {
+ @Override
+ void eat() {
+     System.out.println("Fish is eating");
+ }
+
+ @Override
+ void sleep() {
+     System.out.println("Fish is sleeping");
+ }
+
+ @Override
+ void move() {
+     System.out.println("Fish is swimming");
+ }
+}
+
+//Main class
+public class AnimalKingdom {
+ public static void main(String[] args) {
+     // Create instances of each animal type
+     Mammal lion = new Mammal();
+     Bird eagle = new Bird();
+     Fish salmon = new Fish();
+
+     // Call behavior methods for each animal
+     lion.eat();
+     lion.sleep();
+     lion.move();
+
+     eagle.eat();
+     eagle.sleep();
+     eagle.move();
+
+     salmon.eat();
+     salmon.sleep();
+     salmon.move();
+ }
+}
+
