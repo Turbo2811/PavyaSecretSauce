@@ -1,0 +1,201 @@
+/*3. Shapes manager
+ You are required to design a system for managing different types of shapes. The system should be able to calculate the area and perimeter of various shapes such as circles, rectangles, and triangles. Each shape has different methods to
+calculate its area and perimeter. (Use abstract methods-calculateArea(), calculatePerimeter(), displayDetails())
+
+Your task is to implement a Java program using polymorphism to represent these different types of shapes and calculate their area and perimeter. Additionally, the program should provide functionality to display the details of each shape.
+*/
+import java.util.Scanner;
+
+// Abstract base class for all shapes
+abstract class Shape {
+    // Abstract methods to be implemented by subclasses
+    public abstract double calculateArea();
+    public abstract double calculatePerimeter();
+    public abstract void displayDetails();
+}
+
+// Circle class
+class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
+    public double calculatePerimeter() {
+        return 2 * Math.PI * radius;
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Shape: Circle");
+        System.out.println("Radius: " + radius);
+        System.out.println("Area: " + calculateArea());
+        System.out.println("Perimeter: " + calculatePerimeter());
+    }
+}
+
+// Rectangle class
+class Rectangle extends Shape {
+    private double length;
+    private double width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    @Override
+    public double calculateArea() {
+        return length * width;
+    }
+
+    @Override
+    public double calculatePerimeter() {
+        return 2 * (length + width);
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Shape: Rectangle");
+        System.out.println("Length: " + length);
+        System.out.println("Width: " + width);
+        System.out.println("Area: " + calculateArea());
+        System.out.println("Perimeter: " + calculatePerimeter());
+    }
+}
+
+// Triangle class
+class Triangle extends Shape {
+    private double sideA;
+    private double sideB;
+    private double sideC;
+
+    public Triangle(double sideA, double sideB, double sideC) {
+        this.sideA = sideA;
+        this.sideB = sideB;
+        this.sideC = sideC;
+    }
+
+    public double getSideA() {
+        return sideA;
+    }
+
+    public void setSideA(double sideA) {
+        this.sideA = sideA;
+    }
+
+    public double getSideB() {
+        return sideB;
+    }
+
+    public void setSideB(double sideB) {
+        this.sideB = sideB;
+    }
+
+    public double getSideC() {
+        return sideC;
+    }
+
+    public void setSideC(double sideC) {
+        this.sideC = sideC;
+    }
+
+    @Override
+    public double calculateArea() {
+        double s = (sideA + sideB + sideC) / 2;
+        return Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
+    }
+
+    @Override
+    public double calculatePerimeter() {
+        return sideA + sideB + sideC;
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Shape: Triangle");
+        System.out.println("Side A: " + sideA);
+        System.out.println("Side B: " + sideB);
+        System.out.println("Side C: " + sideC);
+        System.out.println("Area: " + calculateArea());
+        System.out.println("Perimeter: " + calculatePerimeter());
+    }
+}
+
+// Main class to demonstrate the functionality
+public class ShapeManagement {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose a shape to create: ");
+        System.out.println("1. Circle");
+        System.out.println("2. Rectangle");
+        System.out.println("3. Triangle");
+        int choice = scanner.nextInt();
+
+        Shape shape = null;
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter the radius of the circle: ");
+                double radius = scanner.nextDouble();
+                shape = new Circle(radius);
+                break;
+            case 2:
+                System.out.print("Enter the length of the rectangle: ");
+                double length = scanner.nextDouble();
+                System.out.print("Enter the width of the rectangle: ");
+                double width = scanner.nextDouble();
+                shape = new Rectangle(length, width);
+                break;
+            case 3:
+                System.out.print("Enter the length of side A of the triangle: ");
+                double sideA = scanner.nextDouble();
+                System.out.print("Enter the length of side B of the triangle: ");
+                double sideB = scanner.nextDouble();
+                System.out.print("Enter the length of side C of the triangle: ");
+                double sideC = scanner.nextDouble();
+                shape = new Triangle(sideA, sideB, sideC);
+                break;
+            default:
+                System.out.println("Invalid choice");
+                System.exit(0);
+        }
+
+        System.out.println("\nShape Details:");
+        shape.displayDetails();
+
+        scanner.close();
+    }
+}
