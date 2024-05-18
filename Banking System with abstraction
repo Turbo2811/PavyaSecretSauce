@@ -1,0 +1,258 @@
+/* 11. Banking System with abstraction
+
+ Develop a Banking System in Java with abstraction and interfaces for security and ﬂexibility. Implement SavingsAccount and CheckingAccount classes adhering to the BankingAccount interface. Allow users to create accounts, deposit, withdraw, transfer funds, and view transactions.
+*/
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+// BankingAccount interface
+interface BankingAccount {
+    void deposit(double amount);
+    void withdraw(double amount);
+    void transfer(BankingAccount targetAccount, double amount);
+    double getBalance();
+    String getTransactions();
+}
+
+// SavingsAccount class
+class SavingsAccount implements BankingAccount {
+    private double balance;
+    private StringBuilder transactions;
+
+    public SavingsAccount() {
+        this.balance = 0.0;
+        this.transactions = new StringBuilder();
+    }
+
+    @Override
+    public void deposit(double amount) {
+        balance += amount;
+        transactions.append(String.format("Deposit: $%.2f\n", amount));
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            transactions.append(String.format("Withdrawal: $%.2f\n", amount));
+        } else {
+            System.out.println("Insufficient balance for withdrawal.");
+        }
+    }
+
+    @Override
+    public void transfer(BankingAccount targetAccount, double amount) {
+        if (balance >= amount) {
+            withdraw(amount);
+            targetAccount.deposit(amount);
+            transactions.append(String.format("Transfer: $%.2f\n", amount));
+        } else {
+            System.out.println("Insufficient balance for transfer.");
+        }
+    }
+
+    @Override
+    public double getBalance() {
+        return balance;
+    }
+
+    @Override
+    public String getTransactions() {
+        return transactions.toString();
+    }
+}
+
+// CheckingAccount class
+class CheckingAccount implements BankingAccount {
+    private double balance;
+    private StringBuilder transactions;
+
+    public CheckingAccount() {
+        this.balance = 0.0;
+        this.transactions = new StringBuilder();
+    }
+
+    @Override
+    public void deposit(double amount) {
+        balance += amount;
+        transactions.append(String.format("Deposit: $%.2f\n", amount));
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            transactions.append(String.format("Withdrawal: $%.2f\n", amount));
+        } else {
+            System.out.println("Insufficient balance for withdrawal.");
+        }
+    }
+
+    @Override
+    public void transfer(BankingAccount targetAccount, double amount) {
+        if (balance >= amount) {
+            withdraw(amount);
+            targetAccount.deposit(amount);
+            transactions.append(String.format("Transfer: $%.2f\n", amount));
+        } else {
+            System.out.println("Insufficient balance for transfer.");
+        }
+    }
+
+    @Override
+    public double getBalance() {
+        return balance;
+    }
+
+    @Override
+    public String getTransactions() {
+        return transactions.toString();
+    }
+}
+
+public class BankingSystem {
+    private static Map<String, BankingAccount> accounts = new HashMap<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        boolean exit = false;
+        while (!exit) {
+            displayMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    createAccount();
+                    break;
+                case 2:
+                    deposit();
+                    break;
+                case 3:
+                    withdraw();
+                    break;
+                case 4:
+                    transferFunds();
+                    break;
+                case 5:
+                    viewTransactions();
+                    break;
+                case 6:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void displayMenu() {
+        System.out.println("1. Create Account");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Transfer Funds");
+        System.out.println("5. View Transactions");
+        System.out.println("6. Exit");
+        System.out.print("Enter your choice: ");
+    }
+
+    private static void createAccount() {
+        System.out.print("Enter account type (Savings/Checking): ");
+        String accountType = scanner.nextLine();
+        BankingAccount account;
+        if (accountType.equalsIgnoreCase("Savings")) {
+            account = new SavingsAccount();
+        } else if (accountType.equalsIgnoreCase("Checking")) {
+            account = new CheckingAccount();
+        } else {
+            System.out.println("Invalid account type.");
+            return;
+        }
+
+        System.out.print("Enter initial deposit amount: ");
+        double initialDeposit = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+        account.deposit(initialDeposit);
+
+        String accountNumber = generateAccountNumber();
+        accounts.put(accountNumber, account);
+        System.out.println("Account created successfully!");
+    }
+
+    private static void deposit() {
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        BankingAccount account = accounts.get(accountNumber);
+        if (account == null) {
+            System.out.println("Invalid account number.");
+            return;
+        }
+
+        System.out.print("Enter deposit amount: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+        account.deposit(amount);
+        System.out.printf("Deposit successful. New balance: $%.2f\n", account.getBalance());
+    }
+
+    private static void withdraw() {
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        BankingAccount account = accounts.get(accountNumber);
+        if (account == null) {
+            System.out.println("Invalid account number.");
+            return;
+        }
+
+        System.out.print("Enter withdrawal amount: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+        account.withdraw(amount);
+        System.out.printf("Withdrawal successful. New balance: $%.2f\n", account.getBalance());
+    }
+
+    private static void transferFunds() {
+        System.out.print("Enter source account number: ");
+        String sourceAccountNumber = scanner.nextLine();
+        BankingAccount sourceAccount = accounts.get(sourceAccountNumber);
+        if (sourceAccount == null) {
+            System.out.println("Invalid source account number.");
+            return;
+        }
+
+        System.out.print("Enter target account number: ");
+        String targetAccountNumber = scanner.nextLine();
+        BankingAccount targetAccount = accounts.get(targetAccountNumber);
+        if (targetAccount == null) {
+            System.out.println("Invalid target account number.");
+            return;
+        }
+
+        System.out.print("Enter transfer amount: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+        sourceAccount.transfer(targetAccount, amount);
+        System.out.printf("Transfer successful. New source account balance: $%.2f\n", sourceAccount.getBalance());
+        System.out.printf("New target account balance: $%.2f\n", targetAccount.getBalance());
+    }
+
+    private static void viewTransactions() {
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        BankingAccount account = accounts.get(accountNumber);
+        if (account == null) {
+            System.out.println("Invalid account number.");
+            return;
+        }
+
+        System.out.println("Transaction History for Account " + accountNumber + ":");
+        System.out.println(account.getTransactions());
+    }
+
+    private static String generateAccountNumber() {
+        // Generate a unique account number (you can use a more robust method)
+        return String.valueOf((int) (Math.random() * 1000000000));
+    }
+}
